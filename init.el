@@ -88,10 +88,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    Key Mapping    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;  Unbind Ctrl+C because it's a modifier in Emacs:
+(global-set-key (kbd "C-z") 'undefined)
 (global-set-key (kbd "C-c") 'undefined)
+(global-set-key (kbd "C-v") 'undefined)
 
 ;;  Bind Ctrl+C to copy:
-(global-set-key (kbd "C-c") 'kill-ring-save)
+;(global-set-key (kbd "C-c") 'kill-ring-save)
+(define-key input-decode-map (kbd "C-c") (kbd "M-w"))
 
 ;;  Bind Ctrl+V to paste:
 (global-set-key (kbd "C-v") 'yank)
@@ -107,7 +110,6 @@
 
 ;;  Cancel action:
 (global-set-key (kbd "C-z") 'undo)
-
 
 ;;  Return actions:
 (global-set-key (kbd "C-y") 'redo)
@@ -589,6 +591,18 @@ Position the cursor at its beginning, according to the current mode."
         (setq file-name-coding-system           'windows-1251)
         (setq-default coding-system-for-read    'windows-1251)
         (setq default-buffer-file-coding-system 'windows-1251)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;   Compile and run    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Run C programs directly from within emacs
+(defun execute-c-program ()
+  (interactive)
+  (defvar foo)
+  (setq foo (concat "gcc " (buffer-name) " && a.exe" )) ;; Compile arguments
+  (shell-command foo))
+
+(global-set-key [f5] 'execute-c-program)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;   Plugins    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
